@@ -1,4 +1,5 @@
 import json
+import sqlite3
 import jwt,hashlib
 from flask import Flask, request
 from flask_cors import CORS
@@ -7,6 +8,11 @@ from jwt_utils import build_token
 
 app = Flask(__name__)
 CORS(app)
+
+def get_db_connection():
+    conn = sqlite3.connect('QuizePro.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route('/')
 def hello_world():
@@ -30,7 +36,6 @@ def Auth():
         return json.dumps(value)
     else:
         return 'Unauthorized', 401
-
-
+    
 if __name__ == "__main__":
     app.run()
