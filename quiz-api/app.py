@@ -6,6 +6,7 @@ from flask_cors import CORS
 from jwt_utils import build_token
 
 app = Flask(__name__)
+app.config["JSON_SORT_KEYS"] = False
 CORS(app)
 
 def dict_factory(cursor, row):
@@ -36,8 +37,18 @@ def api_id(id):
     conn = sqlite3.connect('QuizePro.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
-    all_books = cur.execute('SELECT * FROM questions JOIN possibleAnswers WHERE questions.id=possibleAnswers.question_Id and questions.id='+id).fetchall()
-    return jsonify(all_books)
+    all_quest = cur.execute('SELECT * FROM questions WHERE id='+id).fetchone()
+    all_answ = cur.execute('SELECT text,isCorrect FROM possibleAnswers WHERE question_Id='+id).fetchall()
+    
+    for answer in all_answ:
+        answer['isCorrect'] = bool(answer['isCorrect'])
+        
+    return jsonify({
+        "text":all_quest["text"],
+        "title":all_quest["title"],
+        "image":all_quest["image"],
+        "position":all_quest["position"],
+        'possibleAnswers': all_answ})
 
 @app.route('/login', methods=['POST'])
 def Auth():
