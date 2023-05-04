@@ -24,8 +24,8 @@ def hello_world():
 def GetQuizInfo():
 	return {"size": 0, "scores": []}, 200
 
-@app.route('/questions', methods=['GET'])
-def api_all():
+@app.route('/questions/all', methods=['GET'])
+def get_All_Questions():
     conn = sqlite3.connect('QuizePro.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
@@ -33,7 +33,7 @@ def api_all():
     return jsonify(all_books)
 
 @app.route('/questions/<id>', methods=['GET'])
-def api_id(id):
+def get_Questions_by_Id(id):
     conn = sqlite3.connect('QuizePro.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
@@ -50,6 +50,29 @@ def api_id(id):
         "position":all_quest["position"],
         'possibleAnswers': all_answ})
 
+@app.route('/questions')
+def get_Questions_by_Position():
+    position = request.args.get('position')
+    conn = sqlite3.connect('QuizePro.db')
+    conn.row_factory = dict_factory
+    cur = conn.cursor()
+    all_quest = cur.execute('SELECT * FROM questions WHERE position=?', (position,)).fetchone()
+    all_answ = cur.execute('SELECT text,isCorrect FROM possibleAnswers WHERE question_Id=?',(all_quest["id"],)).fetchall()
+    conn.close()
+    if all_quest:
+        # Return a JSON response with the question details
+        return jsonify({
+            "text":all_quest["text"],
+            "title":all_quest["title"],
+            "image":all_quest["image"],
+            "position":all_quest["position"],
+            'possibleAnswers': all_answ})
+    else:
+        # Return a JSON response with an error message
+        return jsonify({
+            "error": "Question not found for the given position"
+        })
+
 @app.route('/login', methods=['POST'])
 def Auth():
     payload = request.get_json()
@@ -63,34 +86,6 @@ def Auth():
         return json.dumps(value)
     else:
         return 'Unauthorized', 401
-
-#@app.route('/questions/<int:question_id>', methods=['GET'])
-#def get_question(question_id):
-#    question = Question.get_question_by_id(question_id)
-#    possible_answers = []
-#    for answer in question.possible_answers:
- #       possible_answers.append({
-  #          'id': answer.id,
-   #         'text': answer.text,
-    #        'is_correct': answer.is_correct
-     #   })
-    #return jsonify({
-     #   'id': question.id,
-      #  'title': question.title,
-       # 'position': question.position,
-       # 'text': question.text,
-       # 'image': question.image,
-       # 'possible_answers': possible_answers
-    #})
-
-#@app.route('/questions/<int:question_id>', methods=['GET'])
-#def getQuestById(question_id):
-#    question = query_db('SELECT * from questions join possibleAnswers where possibleAnswers.question_Id==?',
-#               [question_id], one=True)
-#   print('connected')
-#    if question is None:
-#        return jsonify({'error': 'Question not found'}), 404
-#    return jsonify(question)
-
+    
 if __name__ == "__main__":
     app.run()
