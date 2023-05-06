@@ -1,13 +1,15 @@
 # QuizePro
 
-This is a simple Quiz application built using Flask and SQLite. The application provides multiple currently it provides API to retrieve quiz questions, their possible answers and also to authenticate users.
-
+This is a simple Quiz application built using Flask and SQLite. The application provides multiple APIs for retrieving quiz questions, their possible answers, creating new questions, updating and deleting existing questions, and authenticating users.
 ## API endpoints
 
 - `GET /quiz-info`: Get the size of the quiz and the list of scores.
-- `GET /questions`: Get all the quiz questions along with their possible answers.
+- `GET /questions/all`: Get all the quiz questions along with their possible answers.
 - `GET /questions/:id`: Get a specific quiz question by ID along with its possible answers.
 - `POST /login`: Authenticate the user and return a JWT token.
+- `GET /questions?position=<position>`: Get all questions with a specific position.
+- `PUT /questions/<id>`: Update an existing question by ID.
+-`POST /questions`: Create a new question.
 
 ## Requirements
 
