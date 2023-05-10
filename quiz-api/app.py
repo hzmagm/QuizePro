@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from dummy_data import *
-from routes import questions_routes
+from routes import questions_routes,Admin_routes,participant_routes
 from models import db
 
 app = Flask(__name__)
@@ -14,6 +14,8 @@ CORS(app)
 db.init_app(app)
 
 app.register_blueprint(questions_routes)
+app.register_blueprint(Admin_routes)
+app.register_blueprint(participant_routes)
 
 @app.before_first_request
 def create_tables():
