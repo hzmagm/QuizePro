@@ -36,6 +36,7 @@ def build_token():
         return e
 
 
+
 def decode_token(auth_token):
     """
     Decodes the auth token
@@ -47,6 +48,6 @@ def decode_token(auth_token):
         # if decoding did not fail, this means we are correctly logged in
         return payload['sub']
     except jwt.ExpiredSignatureError:
-        raise JwtError('Signature expired. Please log in again.')
+        return Unauthorized
     except jwt.InvalidTokenError as e:
-        raise JwtError('Invalid token. Please log in again.')
+        return Unauthorized

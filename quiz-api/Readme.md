@@ -9,15 +9,17 @@ This is a simple Quiz application built using Flask and SQLite. The application 
 - `GET /questions/`: Get all the quiz questions along with their possible answers.
 - `GET /questions/:id`: Get a specific quiz question by ID along with its possible answers.
 - `GET /questions?position=<position>`: Get all questions with a specific position.
-- `PUT /questions/<id>`: Update an existing question by ID.
-- `POST /questions`: Create a new question.
-- `DELETE /questions/`: Delete all question.
-- `DELETE /questions/<id>` Delete all the possible answers associated with the question by Id ##NOT READY YET##
 
-### Admin Routes
-- `POST /login`: Authenticate the user and return a JWT token.
+### Admin Routes ** LOGIN REQUIRED **
+
+- `POST /admin/login`: Authenticate the user and return a token.
+- `PUT /admin/questions/<id>`: Update an existing question by ID.
+- `POST /admin/questions`: Create a new question.
+- `DELETE /admin/questions/<id>` Delete all the possible answers associated with the question by Id 
+- `DELETE /admin/questions/`: Delete all question.
 
 ### Participant Routes
+
 - `GET /participant/all`: Get all the participants.
 - `PUT /participant/<id>`: Update participant score by Id.
 - `POST /participant/add`: Create a new participant.
