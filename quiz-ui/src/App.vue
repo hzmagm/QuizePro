@@ -4,13 +4,21 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-
-      <nav>
-        <RouterLink to="/home">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
+        <span class="navbar-brand mb-0 h1" style="left: 10px;">QuizProNavbar</span>
+      
+        <div id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <RouterLink to="/home">Home</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/score">Admin (temporariliy leads to Score)</RouterLink>
+            </li>          
+          </ul>         
+        </div>
       </nav>
     </div>
   </header>
@@ -24,9 +32,15 @@ header {
   max-height: 100vh;
 }
 
+RouterView{
+  background-color: aqua;
+}
+
+
+
 .logo {
   display: block;
-  margin: 0 auto 2rem;
+  margin-left: 5px;
 }
 
 nav {
@@ -56,28 +70,18 @@ nav a:first-of-type {
 
 @media (min-width: 1024px) {
   header {
-    display: flex;
+    /*display: flex;*/
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
 
   header .wrapper {
     display: flex;
-    place-items: flex-start;
+    place-items: space-between;
     flex-wrap: wrap;
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+  
 }
 </style>

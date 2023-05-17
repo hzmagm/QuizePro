@@ -7,7 +7,7 @@
 
 <script>
 
-import QuestionDisplay from "./QuestionDisplay.vue";
+import QuestionDisplay from "../components/QuestionDisplay.vue";
 
 export default {
   name: "QuestionManager",

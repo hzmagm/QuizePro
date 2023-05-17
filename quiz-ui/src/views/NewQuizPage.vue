@@ -7,7 +7,7 @@
         <p>Saisissez votre nom</p>
         <input type="text" v-model="username" placeholder="Username" class="form-control">
       </div>
-      <button type="submit" @click="launchNewQuiz" class="btn btn-primary">Commencer</button>
+      <button type="submit" @click="launchNewQuiz" class="btn btn-light">Commencer</button>
     </form>
   </div>
 </template>

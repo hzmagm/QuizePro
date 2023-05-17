@@ -1,15 +1,21 @@
 <template>
     <div class="question">
+
+      <h2>Texte question?</h2>
       
       <img v-if="question.image" :src="question.image" />
-      <a @click="$emit('answer-selected', 3)">La réponse D</a>
+      <table>
+      <tr><a @click="$emit('answer-selected', 0)">La réponse A</a></tr>
+      <tr><a @click="$emit('answer-selected', 1)">La réponse B</a></tr>
+      <tr><a @click="$emit('answer-selected', 2)">La réponse C</a></tr>
+      <tr><a @click="$emit('answer-selected', 3)">La réponse D</a></tr>
+      </table>
     </div>
 </template>
   
 <script>
   //import quizApiService from "@/services/QuizApiService";
   
-  //var registeredScores=[];
   
   export default {
     name: "QuestionDisplay",
@@ -28,7 +34,6 @@
 
     async created() {
       console.log("Composant Question Display 'created'");
-      //registeredScores=quizApiService.getQuizInfo()
     }
   };
 </script>
