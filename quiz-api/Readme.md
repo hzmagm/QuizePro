@@ -1,24 +1,51 @@
 # QuizePro
 
-This is a simple Quiz application built using Flask and SQLite. The application provides multiple APIs for retrieving quiz questions, their possible answers, creating new questions, updating and deleting existing questions, and authenticating users.
+This is a simple Quiz application built using Flask and SQLite. The application provides multiple APIs for retrieving quiz questions, their possible answers, creating new questions, updating and deleting existing questions, and authenticating users, add participants and update the score.
 ## API endpoints
 
+### Question Routes
+
 - `GET /quiz-info`: Get the size of the quiz and the list of scores.
-- `GET /questions/all`: Get all the quiz questions along with their possible answers.
+- `GET /questions/`: Get all the quiz questions along with their possible answers.
 - `GET /questions/:id`: Get a specific quiz question by ID along with its possible answers.
-- `POST /login`: Authenticate the user and return a JWT token.
 - `GET /questions?position=<position>`: Get all questions with a specific position.
-- `PUT /questions/<id>`: Update an existing question by ID.
--`POST /questions`: Create a new question.
+
+### Admin Routes ** LOGIN REQUIRED **
+
+- `POST /admin/login`: Authenticate the user and return a token.
+- `PUT /admin/questions/<id>`: Update an existing question by ID.
+- `POST /admin/questions`: Create a new question.
+- `DELETE /admin/questions/<id>` Delete all the possible answers associated with the question by Id 
+- `DELETE /admin/questions/`: Delete all question.
+
+### Participant Routes
+
+- `GET /participant/all`: Get all the participants.
+- `PUT /participant/<id>`: Update participant score by Id.
+- `POST /participant/add`: Create a new participant.
+- `GET /participant/:id`: Get a participant by Id.
+- `GET /participant/all_ordered`: Get all participant ordered by score.
 
 ## Requirements
 
-- Requirements
-- Python 3.x
-- Flask
-- Flask-CORS
-- PyJWT
-- SQLite3
+- autopep8==2.0.2
+- click==8.1.3
+- colorama==0.4.6
+- Flask==2.2.3
+- Flask-Cors==3.0.10
+- greenlet==2.0.2
+- gunicorn==20.1.0
+- itsdangerous==2.1.2
+- Jinja2==3.1.2
+- MarkupSafe==2.1.2
+- ORM-SQLite==0.0.2
+- pycodestyle==2.10.0
+- PyJWT==2.6.0
+- six==1.16.0
+- SQLAlchemy==2.0.10
+- typing_extensions==4.5.0
+- Werkzeug==2.2.3
+
 
 ## Dependencies
 
