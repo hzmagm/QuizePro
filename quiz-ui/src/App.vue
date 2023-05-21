@@ -18,7 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
               <RouterLink to="/home">Home</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/score">Admin (temporariliy leads to Score)</RouterLink>
+              <RouterLink to="/admin">Admin</RouterLink>
             </li>          
           </ul>         
         </div>

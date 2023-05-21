@@ -35,7 +35,7 @@ export default {
       - score : score obtenu à l’époque
       - date : date de la participation au format dd/MM/yyyy hh:mm:ss
     */
-    return this.call("get", "quiz-info");
+    return this.call("get", "questions/quiz-info");
   },
   getQuestion(position) {/*
     - **question**
@@ -82,7 +82,7 @@ export default {
       "password":password,      
     };
 
-    this.call("post","login", data)
+    this.call("post","admin/login", data)
   },
 
 
@@ -207,6 +207,10 @@ Payload de retour : vide
      */
 
     this.call("delete","participationq/all", null, this.token);
+  },
+
+  getQuestions(){
+    return this.call("get","questions/");
   }
 
 

@@ -1,13 +1,15 @@
-let playerName = ""
-let participationScore = 0
+//let playerName = ""
+//let participationScore = 0
 
 export default {
   clear() {
 		// todo : implement
+    //playerName = "";
+    //participationScore = 0;
   },
   savePlayerName(playerName) {
     try{
-      playerName=window.localStorage.setItem("playerName", playerName);
+      window.localStorage.setItem("playerName", playerName);
     }
     catch(error){
       console.warn(error);
@@ -15,6 +17,7 @@ export default {
 		
   },
   getPlayerName() {
+    //return playerName;
     return window.localStorage.getItem("playerName");
     //or save the set as variable and send it here		
 		// todo : implement

@@ -2,8 +2,10 @@
     <div class="highScores">
 
         <h2>Les meilleurs scores</h2>
+        <div > <p>taille tableau {{ previousScores.size }}</p></div>
 
             <table class="table">
+              
             <thead>
                 <tr>
                 <th scope="col">#</th>
@@ -11,10 +13,13 @@
                 <th scope="col">Score</th>
                 </tr>
             </thead>
+            
             <tbody>
                 <tr>
-                <div ></div>
-                <th v-for="scoreEntry in previousScores" v-bind:key="scoreEntry.date">{{scoreEntry.date}}</th>
+                
+                <th v-for="scoreEntry in previousScores.scores" v-bind:key="scoreEntry.date">{{scoreEntry.date}}</th>
+                <th v-for="scoreEntry in previousScores.scores" v-bind:key="scoreEntry.name">{{scoreEntry.date}}</th>
+                <th v-for="scoreEntry in previousScores.scores" v-bind:key="scoreEntry.score">{{scoreEntry.date}}</th>
                 </tr>
             </tbody>
             </table>
@@ -23,25 +28,32 @@
   
 <script>
     
-  var previousScores = [];
+
+  import quizApiService from "@/services/QuizApiService";
+  
   
   export default {
-    name: "QuestionDisplay",
+    name: "HighScoreDisplay",
     data() {
       return {
-        
+        previousScores:{
+          "scores":[],
+          "size": 1
+        }
       };
     },
-    props: {  
-        question: {    
-            type: Object  
-        }
-    },
-
-    emits: ["answer-selected"],
+    
 
     async created() {
-      console.log("Composant Question Display 'created'");
+      console.log("Sous-Composant HighScoresDisplay 'created'");
+      try{
+        var scoresResponse=await quizApiService.getQuizInfo();
+        this.previousScores= scoresResponse.data;
+        console.log(scoresResponse.data);
+      }
+      catch(error){
+        console.log(error);
+      }
     }
   };
 </script>

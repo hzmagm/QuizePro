@@ -9,10 +9,16 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path:"/",
+      redirect:{path:"/home"}
+    },
+    
+    {
       path: '/home',
       name: 'home',
       component: HomePage
     },
+
     {
       path: '/start-new-quiz-page',
       name: 'start-new-quiz-page',
@@ -21,6 +27,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: NewQuizPage
     },
+
     {
       path: '/questions',
       name: 'questions',

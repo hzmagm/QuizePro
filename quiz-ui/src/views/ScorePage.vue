@@ -50,7 +50,12 @@ export default {
   },
   async created() {
     console.log("Composant Home page 'created'");
-    score=participationStorageService.getParticipationScore();
+    try{
+      score=participationStorageService.getParticipationScore();
+    }
+    catch(error){
+      console.log(error);
+    }
     //registeredScores=quizApiService.getQuizInfo()
   }
 };

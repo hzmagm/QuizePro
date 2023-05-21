@@ -27,7 +27,12 @@ export default {
   },
   async created() {
     console.log("Composant Home page 'created'");
-    registeredScores=quizApiService.getQuizInfo()
+    try{
+      registeredScores=quizApiService.getQuizInfo();
+    }
+    catch(error){
+      console.log(error);
+    }
   }
 };
 </script>
