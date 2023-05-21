@@ -3,6 +3,7 @@ import json
 from flask import Blueprint, jsonify, request, session
 from jwt_utils import build_token,decode_token
 from models import PossibleAnswer, Question, Participant, db
+from dummy_data import *
 
 questions_routes = Blueprint('questions_routes', __name__, url_prefix='/questions')
 
@@ -113,6 +114,7 @@ def Auth():
         return json.dumps(value)
     else:
         return 'Unauthorized', 401
+    
 # Logout 
 @Admin_routes.route('/logout', methods=['POST'])
 def logout():
@@ -218,3 +220,15 @@ def delete_participations():
             return '', 500
     else:
         return 'Unauthorized', 401
+    
+@Admin_routes.route('/rebuildDb',methods=['POST'])
+def rebuild_db():
+    token=decode_token(session.get('token'))
+    if("quiz-app-admin"==token):
+        db.drop_all()
+        db.create_all()
+        creat_dummy_data()
+        return 'Ok',200
+    else :
+        return 'Unauthorized', 401
+    

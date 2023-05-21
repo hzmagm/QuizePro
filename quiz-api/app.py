@@ -6,7 +6,7 @@ from models import db
 
 app = Flask(__name__)
 app.secret_key="test secret"
-app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///quizeTest.db"
+app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///quiz.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=False
 app.config["JSON_SORT_KEYS"] = False
 CORS(app)
@@ -21,7 +21,6 @@ app.register_blueprint(participations_routes)
 def create_tables():
     db.drop_all()
     db.create_all()
-    creat_dummy_data()
     session['token']="Not Loggedin"
 
 if __name__ == "__main__":

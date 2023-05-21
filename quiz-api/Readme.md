@@ -61,6 +61,19 @@ The application requires the following dependencies:
 2. Run the application by executing `python app.py`.
 3. Access the API endpoints through `http://localhost:5000`.
 
+## Docker images
+
+You can find the Docker images for this project on Docker Hub:
+
+- [API Docker Image](https://hub.docker.com/r/hzmasbl/quiz-prod-api)
+- [UI Docker Image](https://hub.docker.com/r/hzmasbl/quiz-prod-ui)
+
+You can pull the image using the following command:
+
+```bash
+docker pull hzmasbl/quiz-prod-api
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
