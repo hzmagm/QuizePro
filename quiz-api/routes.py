@@ -24,7 +24,15 @@ def get_all_questions():
         return jsonify([question.to_dict() for question in questions])
     else :
         return 'There no questions in the database !',404
-    
+
+@questions_routes.route('/rebuildDb',methods=['POST'])
+def rebuild_db():
+    db.drop_all()
+    db.create_all()
+    creat_dummy_data()
+    return 'Ok',200
+
+  
 # GET question by Id
 @questions_routes.route('/<int:question_id>')
 def question_by_id(question_id):
@@ -192,6 +200,7 @@ def delete_question_by_id(question_id):
             return f'Question with Id {question_id} has not been deleted', 500
     else:
         return 'Unauthorized', 401
+    
 # Delete all the possible answers associated with the question
 @Admin_routes.route('/questions/delete', methods=['DELETE'])
 def delete_all_question():
@@ -219,16 +228,6 @@ def delete_participations():
         else :
             return '', 500
     else:
-        return 'Unauthorized', 401
-    
-@Admin_routes.route('/rebuildDb',methods=['POST'])
-def rebuild_db():
-    token=decode_token(session.get('token'))
-    if("quiz-app-admin"==token):
-        db.drop_all()
-        db.create_all()
-        creat_dummy_data()
-        return 'Ok',200
-    else :
-        return 'Unauthorized', 401
+        return 'Unauthorized', 401    
+
     

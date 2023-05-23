@@ -21,6 +21,7 @@ app.register_blueprint(participations_routes)
 def create_tables():
     db.drop_all()
     db.create_all()
+    creat_dummy_data()
     session['token']="Not Loggedin"
 
 if __name__ == "__main__":
