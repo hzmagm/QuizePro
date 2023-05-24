@@ -1,11 +1,8 @@
-//let playerName = ""
-//let participationScore = 0
-
 export default {
   clear() {
-		// todo : implement
-    //playerName = "";
-    //participationScore = 0;
+    window.localStorage.removeItem("playerName");
+    window.localStorage.removeItem("playerId");
+    window.localStorage.removeItem("participationScore");
   },
   savePlayerName(playerName) {
     try{
@@ -16,7 +13,6 @@ export default {
     }
 		
   },
-
   savePlayerId(playerId) {
     try{
       window.localStorage.setItem("playerId", playerId);
@@ -27,23 +23,15 @@ export default {
 		
   },
   getPlayerId() {
-    //return playerName;
     return window.localStorage.getItem("playerId");
-    //or save the set as variable and send it here		
-		// todo : implement
   },
   getPlayerName() {
-    //return playerName;
     return window.localStorage.getItem("playerName");
-    //or save the set as variable and send it here		
-		// todo : implement
   },
   saveParticipationScore(participationScore) {
     window.localStorage.setItem("participationScore", participationScore);
-		//this.participationScore=participationScore
   },
   getParticipationScore() {
-		// todo : implement
     return window.localStorage.getItem("participationScore");
   }
 };

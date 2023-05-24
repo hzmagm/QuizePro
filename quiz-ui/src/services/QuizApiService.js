@@ -29,28 +29,11 @@ export default {
       });
   },
   getQuizInfo() {
-    /*
-    - **size** : Entier positif retournant le nombre de questions contenues dans le quiz
-    - **scores** : tableau d’objets participationResult trié par scores décroissants et dont chaque entrée donne :
-      - playerName : nom du joueur
-      - score : score obtenu à l’époque
-      - date : date de la participation au format dd/MM/yyyy hh:mm:ss
-    */
+
     return this.call("get", "questions/quiz-info");
   },
-  getQuestion(position) {/*
-    - **question**
-    - **position** : entier positif désignant le numéro de la question
-    - **title** : texte contenant le titre de la question
-    - **position** : position de la question dans le quiz (normalement identique au paramètre d’entrée...)
-    - **text** : intitulé de la question
-    - **image** : une image au format base 64 associée à la question
-    - **possibleAnswers** : liste des réponses possibles contenant chacune :
-        - **id :** id base de données de la réponse
-        - **text** : intitulé de la réponse
-        - **isCorrect** : booléen indiquant si la réponse est la bonne ou non
-    */
-    // not implemented
+  getQuestion(position) {
+
     return this.call("get", "/questions?position="+position);
   },
 
@@ -62,15 +45,7 @@ export default {
   },
 
   updateScore(id, score){
-    /* needs: - **player_name** : le nom du joueur qui poste son questionnaire
-              - **answers** : la liste des positions de réponses choisies dans l’ordre des questions du quiz
-        returns:
-              - **answersSummaries** : tableau de type answerSummary, dont chaque entrée donne, dans l’ordre des questions du quiz :
-                - correctAnswerPosition : position de la réponse correcte à la question
-                - wasCorrect : état de la réponse fournie par le joueur
-              - playerName : nom du joueur tel qu’il a été saisi au début du quiz
-              - score : score obtenu
-    */
+
     const data = {
       "score":score
       
@@ -85,9 +60,6 @@ export default {
   },
 
   login(password){
-    /* 
-    needs password
-    returns token : le token en question si le mot de passe est le bon*/
 
     const data = {
       "password":password,      
@@ -97,29 +69,9 @@ export default {
   },
 
 
-  //ADMIN ENDPOINTS
+//ADMIN ENDPOINTS
 
   createQuestion(data){
-    /*
-## Paramètres du corps de requête
-
-- **Question**
-    - **title** : le titre de la question
-    - **text** : la question en tant que telle
-    - **image** : image en base 64
-    - **position** : la position de la question dans le quiz. Peut provoquer un décalage des positions des autres questions si cette position est déjà prise. Il est interdit de mettre une position supérieure au nombre de questions déjà en base.
-    - **possibleAnswers** : liste des réponses possibles contenant chacune :
-        - text : l’intitulé de la réponse elle-même
-        - isCorrect : booléen indiquant si la réponse est la bonne ou non (vérification à prévoir pour éviter les doublons)
-
-## Retour
-
-HTTP : 200 - Ok
-
-Payload de retour :
-
-- id : identifiant en base de données de la question créée
-    */
 
     return this.call("post","admin/questions/", data, this.token)
   },
@@ -128,24 +80,7 @@ Payload de retour :
 
 
   updateQuestion(questionId,title,text,image,position,possibleAnswers){
-    /*
-    ## Paramètres de corps de requête
 
-- **Question**
-    - **title** : le titre de la question
-    - **text** : l’intitulé de la question
-    - **image** : image en base 64
-    - **position** : la position (potentiellement nouvelle) de la question dans le quiz. Peut provoquer un décalage des positions des autres questions si cette position est déjà prise. Il est interdit de mettre une position supérieure au nombre de questions déjà en base.
-    - **possibleAnswers** : liste des réponses possibles contenant chacune :
-        - text : l’intitulé de la réponse
-        - isCorrect : booléen indiquant si la réponse est la bonne ou non (vérification à prévoir pour éviter les doublons)
-
-## Retour
-
-HTTP : 204 - No Content
-
-Payload de retour : vide
-    */
     const data = {
       "title":title,
       "text":text,
@@ -161,17 +96,7 @@ Payload de retour : vide
 
 
   deleteQuestion(questionId){
-    /**
-     * ## Paramètres d’URL
 
-- questionId : idenfiant de la question en base de données
-
-## Retour
-
-HTTP : 204 - No Content
-
-Payload de retour : vide
-     */
     this.token = adminDataStorage.getToken();
     console.log("token"+ this.token);
     return this.call("DELETE","admin/questions/"+questionId, null, this.token);
@@ -180,34 +105,12 @@ Payload de retour : vide
 
 
   deleteAllQuestions(){
-    /**
-     *## Paramètres d’URL
-
-Aucun
-
-## Retour
-
-HTTP : 204 - No Content
-
-Payload de retour : vide
-     */
 
     return this.call("delete","admin/questions/all", null, this.token);
   },
 
 
   deleteAllParticipants(){
-    /**
-     *## Paramètres d’URL
-
-Aucun
-
-## Retour
-
-HTTP : 204 - No Content
-
-Payload de retour : vide
-     */
 
     this.call("delete","admin/participations/all", null, this.token);
   },
@@ -215,6 +118,5 @@ Payload de retour : vide
   getQuestions(){
     return this.call("get","questions/");
   }
-
 
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="highScores">
+    <div v-if="!empty" class="highScores">
 
         <h2>Les 10 meilleurs scores</h2>
 
@@ -22,6 +22,12 @@
             </tbody>
             </table>
     </div>
+
+    <div v-if="empty">
+    
+      <h2>Sois le premier (et donc le meilleur!)</h2>
+    
+    </div>
 </template>
   
 <script>
@@ -34,21 +40,26 @@
     name: "HighScoreDisplay",
     data() {
       return {
+        emtpty : false,
         previousScores:{
           "scores":[]
         }
       };
     },
     
-
     async created() {
+      this.empty=false;
       console.log("Sous-Composant HighScoresDisplay 'created'");
+      console.log(this.empty);
       try{
         var scoresResponse=await quizApiService.getHighScores();
         this.previousScores= scoresResponse.data.slice(0,10);
+        console.log(this.previousScores);
+
       }
       catch(error){
         console.log(error);
+        this.empty=true;
       }
     }
   };

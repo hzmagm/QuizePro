@@ -1,6 +1,6 @@
 <template>
   <div class="questionManager" v-if="currentQuestion">
-    <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
+    <h1 class="text-center">Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
     <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
   </div>
 </template>
@@ -10,7 +10,6 @@
 import QuestionDisplay from "../components/QuestionDisplay.vue";
 import quizApiService from "@/services/QuizApiService";
 import participationStorageService from "../services/ParticipationStorageService.js";
-import { callWithErrorHandling } from "vue";
 
 var score = 0;
 
@@ -21,7 +20,8 @@ export default {
       currentQuestion:{
         questionTitle: "",
         questionText: "",
-        possibleAnswers: []
+        possibleAnswers: [],
+        image: ""
       },
 
       currentQuestionPosition: 1,
@@ -36,16 +36,7 @@ export default {
   
   async created() {
     console.log("Composant Question Manager 'created'");
-    try{
-      var test = await quizApiService.getQuestion(5);
-      console.log(test.data);
-    }
-    catch(error){
-      console.log(error);
-    }
-    //console.log("playing with "+ participationStorageService.getPlayerName())
     this.loadQuestionByPosition(1);
-    //registeredScores=quizApiService.getQuizInfo()
   },
 
   methods:{
@@ -53,11 +44,12 @@ export default {
       try{
         
         var response = await quizApiService.getQuestion(position);
-        console.log(response.data[0].answers);
+        console.log(response.data[0]);
         this.currentQuestion={
           questionTitle: response.data[0].title,
           questionText: response.data[0].text,
-          possibleAnswers: response.data[0].answers
+          possibleAnswers: response.data[0].answers,
+          image: response.data[0].image
         };
 
       }
@@ -68,9 +60,7 @@ export default {
 
     
     async answerClickedHandler(position){
-      
-      //console.log(JSON.parse(JSON.stringify(this.currentQuestion.possibleAnswers[position].isCorrect)));
-
+  
       this.chosenAnswers.push(position);
 
 
@@ -92,7 +82,6 @@ export default {
 
 
     async endQuiz(){
-      //register score
       console.log(this.chosenAnswers);
 
       try{
@@ -104,7 +93,6 @@ export default {
       catch(error){
         console.warn(error);
       }
-      //send to result page
     }
   }
 };

@@ -1,13 +1,20 @@
 <template>
-  <div class="start-new-quiz-page">
+  <div class="start-new-quiz-page text-center">
     <h1>Envie d'essayer?</h1>
     
     <form>
       <div class ="form-group">
         <p>On a juste besoin de ton nom!</p>
-        <input type="text" v-model="username" placeholder="Pseudo" class="form-control">
+        <div class="row">
+          <div class="col-md-8">
+            <input type="text" v-model="username" placeholder="Pseudo" class="form-control">
+          </div>
+
+          <div class="col-md-4">
+            <a  @click="launchNewQuiz" class="btn btn-light">Commencer</a>
+          </div>
+        </div>
       </div>
-      <a  @click="launchNewQuiz" class="btn btn-light">Commencer</a>
     </form>
   </div>
 </template>

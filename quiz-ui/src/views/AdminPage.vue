@@ -2,8 +2,6 @@
     <div class="admin">
       <h1>Coin V.I.P</h1>
 
-      
-
       <form v-if="!loggedIn">
         <div class ="form-group">
           <p>Mot de passe</p>
@@ -23,7 +21,6 @@
       <div v-if="showing && loggedIn">
         <h2>{{ currentQuestion.title }}</h2>
         <h3> {{ currentQuestion.text }}</h3>    
-        <!--<img v-if="questioObject.image" :src="questioObject.image" />-->
         <table >
           <tr v-for="(possibleAnswer, index) in currentQuestion.answers" :key="index"><p>{{ possibleAnswer.text }}</p></tr>
         </table>
@@ -57,10 +54,6 @@
       
       </form>
 
-      
-        
-      
-
       <div v-if="loggedIn">
         <button class="btn btn-danger" @click="logout">Logout</button>
       </div>
@@ -73,7 +66,6 @@
   import quizApiService from "@/services/QuizApiService";
   import adminDataStorage from "@/services/AdminDataStorage";
   
-  var token="";
   
   export default {
     name: "HomePage",
@@ -136,8 +128,6 @@
             password: this.password
           };
 
-          //var tokenResponse = await quizApiService.login(this.password);
-
           try{
             const tokenResponse = await axios.post("http://127.0.0.1:5000/admin/login", data);// we had a problem using QuizAPIService, response was undefined
             adminDataStorage.saveToken(tokenResponse.data.token);
@@ -148,9 +138,7 @@
           }
           catch(error){
             console.log(error);
-          }
-          
-        
+          }    
         
       },
 
@@ -188,30 +176,21 @@
       },
 
       async deleteQuestion(){
-        //console.log(quizApiService.token);
         console.log(quizApiService.instance);
         if (window.confirm("Delete this question?")) {
           
           console.log("Question to del"+ this.questionId);
 
-          //quizApiService.deleteQuestion(this.questionId);
-          try{
-            /*const deleteResponse = await axios.delete("http://127.0.0.1:5000/admin/questions/"+this.questionId, {
-              headers:{
-                Authorization: "Bearer " +quizApiService.token
-              }*/
+          try{        
             var deleteResponse = await quizApiService.deleteQuestion(this.questionId);
-            //});// we had a problem using QuizAPIService, response was undefined
-            console.log(deleteResponse);
-            
+            console.log(deleteResponse);          
           }
           catch(error){
             console.log(error);
           }
 
           this.showMainPage();
-        }
-        
+        }       
         
       },
 
@@ -238,8 +217,6 @@
         }  
       },
 
-      
-
       async getQuestions(){
         try{
           var response = await quizApiService.getQuestions();
@@ -256,4 +233,4 @@
   };
 </script>
   
-  <style></style>
+<style></style>
