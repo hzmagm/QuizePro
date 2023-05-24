@@ -10,6 +10,7 @@
 import QuestionDisplay from "../components/QuestionDisplay.vue";
 import quizApiService from "@/services/QuizApiService";
 import participationStorageService from "../services/ParticipationStorageService.js";
+import { callWithErrorHandling } from "vue";
 
 var score = 0;
 
@@ -24,7 +25,8 @@ export default {
       },
 
       currentQuestionPosition: 1,
-      totalNumberOfQuestion:5
+      totalNumberOfQuestion:10,
+      chosenAnswers:[]
     }
   },
 
@@ -34,6 +36,13 @@ export default {
   
   async created() {
     console.log("Composant Question Manager 'created'");
+    try{
+      var test = await quizApiService.getQuestion(5);
+      console.log(test.data);
+    }
+    catch(error){
+      console.log(error);
+    }
     //console.log("playing with "+ participationStorageService.getPlayerName())
     this.loadQuestionByPosition(1);
     //registeredScores=quizApiService.getQuizInfo()
@@ -50,6 +59,7 @@ export default {
           questionText: response.data[0].text,
           possibleAnswers: response.data[0].answers
         };
+
       }
       catch(error){
         console.log(error);
@@ -60,6 +70,9 @@ export default {
     async answerClickedHandler(position){
       
       //console.log(JSON.parse(JSON.stringify(this.currentQuestion.possibleAnswers[position].isCorrect)));
+
+      this.chosenAnswers.push(position);
+
 
       if(JSON.parse(JSON.stringify(this.currentQuestion.possibleAnswers[position].isCorrect))==true){
         score++;
@@ -80,7 +93,17 @@ export default {
 
     async endQuiz(){
       //register score
-      this.$router.push('/score');
+      console.log(this.chosenAnswers);
+
+      try{
+        participationStorageService.saveParticipationScore(score);
+        var updateScoreResponse = await quizApiService.updateScore(participationStorageService.getPlayerId(),score);
+        console.log(updateScoreResponse);
+        this.$router.push('/score');
+      }
+      catch(error){
+        console.warn(error);
+      }
       //send to result page
     }
   }

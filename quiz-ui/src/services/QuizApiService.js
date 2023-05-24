@@ -1,4 +1,5 @@
 import axios from "axios";
+import adminDataStorage from "./AdminDataStorage";
 
 const instance = axios.create({
 	baseURL: `${import.meta.env.VITE_API_URL}`,
@@ -53,7 +54,14 @@ export default {
     return this.call("get", "/questions?position="+position);
   },
 
-  submitAnswers(playerName,answers){
+  createParticipant(name){
+    const data = {
+      "pseudoName":name,    
+    };
+    return this.call("post","participations/add", data);
+  },
+
+  updateScore(id, score){
     /* needs: - **player_name** : le nom du joueur qui poste son questionnaire
               - **answers** : la liste des positions de réponses choisies dans l’ordre des questions du quiz
         returns:
@@ -64,13 +72,16 @@ export default {
               - score : score obtenu
     */
     const data = {
-      "playerName":playerName,
-      "answers":answers,
+      "score":score
       
     };
     
-    this.call("post","participation", data)
+    return this.call("put","participations/"+id, data)
     
+  },
+
+  getHighScores(){
+    return this.call("get","participations/all_ordered");
   },
 
   login(password){
@@ -82,13 +93,13 @@ export default {
       "password":password,      
     };
 
-    this.call("post","admin/login", data)
+    return this.call("post","/admin/login", data)
   },
 
 
   //ADMIN ENDPOINTS
 
-  createQuestion(title,text,image,position,possibleAnswers){
+  createQuestion(data){
     /*
 ## Paramètres du corps de requête
 
@@ -110,16 +121,7 @@ Payload de retour :
 - id : identifiant en base de données de la question créée
     */
 
-
-    const data = {
-      "title":title,
-      "text":text,
-      "image":image,
-      "position":position,
-      "possibleAnswers":possibleAnswers    
-    };
-
-    this.call("post","questions", data, this.token)
+    return this.call("post","admin/questions/", data, this.token)
   },
 
 
@@ -152,7 +154,7 @@ Payload de retour : vide
       "possibleAnswers":possibleAnswers    
     };
 
-    this.call("put","questions/"+questionId, data, this.token);
+    return this.call("put","questions/"+questionId, data, this.token);
     
   },
 
@@ -170,8 +172,9 @@ HTTP : 204 - No Content
 
 Payload de retour : vide
      */
-
-    this.call("delete","questions/"+questionId, null, this.token);
+    this.token = adminDataStorage.getToken();
+    console.log("token"+ this.token);
+    return this.call("DELETE","admin/questions/"+questionId, null, this.token);
   },
 
 
@@ -189,7 +192,7 @@ HTTP : 204 - No Content
 Payload de retour : vide
      */
 
-    this.call("delete","questions/all", null, this.token);
+    return this.call("delete","admin/questions/all", null, this.token);
   },
 
 
@@ -206,7 +209,7 @@ HTTP : 204 - No Content
 Payload de retour : vide
      */
 
-    this.call("delete","participationq/all", null, this.token);
+    this.call("delete","admin/participations/all", null, this.token);
   },
 
   getQuestions(){

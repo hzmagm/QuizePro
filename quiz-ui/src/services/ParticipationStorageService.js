@@ -16,6 +16,22 @@ export default {
     }
 		
   },
+
+  savePlayerId(playerId) {
+    try{
+      window.localStorage.setItem("playerId", playerId);
+    }
+    catch(error){
+      console.warn(error);
+    }
+		
+  },
+  getPlayerId() {
+    //return playerName;
+    return window.localStorage.getItem("playerId");
+    //or save the set as variable and send it here		
+		// todo : implement
+  },
   getPlayerName() {
     //return playerName;
     return window.localStorage.getItem("playerName");

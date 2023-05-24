@@ -1,11 +1,13 @@
 <template>
   <div class="Score">
         <h1>Score: {{ score }}</h1>
-        <p>Your score is {{ score }}</p>
+        <p v-if= "score>8">Bien joué champion(ne), vérifie si tu as ta place parmis les plus grands!</p>
+        <p v-if= "score<5">Aïe, continue l'école!</p>
+        <p v-if= "score<8 && score>5">Pas mal!</p>
 
   </div>
 
-  <h2>Vos scores précédents</h2>
+  <!--<h2>Vos scores précédents</h2>
 
   <table class="table">
     <thead>
@@ -21,7 +23,7 @@
         <th v-for="scoreEntry in previousScores" v-bind:key="scoreEntry.date">{{scoreEntry.date}}</th>
       </tr>
     </tbody>
-  </table>
+  </table>-->
 
   <HighScoresDisplay/>
 
@@ -34,15 +36,13 @@ import participationStorageService from "../services/ParticipationStorageService
 import HighScoresDisplay from "../components/HighScoresDisplay.vue";
 
 
-var score=0;
 
-var previousScores = [];
 
 export default {
   name: "ScorePage",
   data() {
     return {
-      
+      score:0
     };
   },
   components: {  
@@ -51,7 +51,8 @@ export default {
   async created() {
     console.log("Composant Home page 'created'");
     try{
-      score=participationStorageService.getParticipationScore();
+      this.score=participationStorageService.getParticipationScore();
+      console.log(this.score);
     }
     catch(error){
       console.log(error);

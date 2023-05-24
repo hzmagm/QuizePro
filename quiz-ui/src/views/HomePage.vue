@@ -1,25 +1,24 @@
 <template>
   <div class="home">
-    <h1>Home page</h1>
-    <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
-    {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
-    </div>
+    <h1>Bienvenue</h1>
+
+    <p>Viens tester votre culture générale en jouant à notre quiz!</p>
+
+
+    
     <HighScoresDisplay/>
     <router-link to="/start-new-quiz-page">Démarrer le quiz !</router-link>
   </div>
 </template>
 
 <script>
-import quizApiService from "@/services/QuizApiService";
 import HighScoresDisplay from "../components/HighScoresDisplay.vue";
-
-var registeredScores=[];
 
 export default {
   name: "HomePage",
   data() {
     return {
-      registeredScores
+      
     };
   },
   components: {  
@@ -27,12 +26,7 @@ export default {
   },
   async created() {
     console.log("Composant Home page 'created'");
-    try{
-      registeredScores=quizApiService.getQuizInfo();
-    }
-    catch(error){
-      console.log(error);
-    }
+    
   }
 };
 </script>
