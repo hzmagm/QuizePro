@@ -20,11 +20,11 @@ This is a simple Quiz application built using Flask and SQLite. The application 
 
 ### Participant Routes
 
-- `GET /participant/all`: Get all the participants.
-- `PUT /participant/<id>`: Update participant score by Id.
-- `POST /participant/add`: Create a new participant.
-- `GET /participant/:id`: Get a participant by Id.
-- `GET /participant/all_ordered`: Get all participant ordered by score.
+- `GET /participations/all`: Get all the participants.
+- `PUT /participations/<id>`: Update participant score by Id.
+- `POST /participations/add`: Create a new participant.
+- `GET /participations/:id`: Get a participant by Id.
+- `GET /participations/all_ordered`: Get all participant ordered by score.
 
 ## Requirements
 
