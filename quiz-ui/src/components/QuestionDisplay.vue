@@ -2,7 +2,7 @@
     <div class="question" v-if="question">
       <h2 class="text-center">{{ question.questionTitle }}</h2>
       <h3 class="text-center"> {{ question.questionText }}</h3>    
-      <img v-if="question.image" src="question.image" height="250"/>
+      <img v-if="question.image" :src="question.image" height="250"/>
       <img v-if="!question.image" src="@/assets/questionmark.png" height="250"/>
       <table >
         <tr v-for="(possibleAnswer, index) in question.possibleAnswers" :key="index"><a @click="$emit('answer-selected', index)">{{ index+1 }} ) {{ possibleAnswer.text }}</a></tr>
