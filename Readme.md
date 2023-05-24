@@ -75,6 +75,9 @@ You can pull the image using the following command:
 docker pull hzmasbl/quiz-prod-api
 docker pull hzmasbl/quiz-prod-ui
 ```
+### Database schema
+
+![schema](schemavisuel.JPG)
 
 ## License
 
