@@ -1,6 +1,6 @@
 <template>
   <div class="questionManager" v-if="currentQuestion">
-    <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
+    <h1 class="text-center">Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
     <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
   </div>
 </template>
@@ -11,7 +11,7 @@ import QuestionDisplay from "../components/QuestionDisplay.vue";
 import quizApiService from "@/services/QuizApiService";
 import participationStorageService from "../services/ParticipationStorageService.js";
 
-var score = 0;
+
 
 export default {
   name: "QuestionManager",
@@ -20,11 +20,14 @@ export default {
       currentQuestion:{
         questionTitle: "",
         questionText: "",
-        possibleAnswers: []
+        possibleAnswers: [],
+        image: ""
       },
 
       currentQuestionPosition: 1,
-      totalNumberOfQuestion:5
+      totalNumberOfQuestion:10,
+      chosenAnswers:[],
+      score:0
     }
   },
 
@@ -34,9 +37,8 @@ export default {
   
   async created() {
     console.log("Composant Question Manager 'created'");
-    //console.log("playing with "+ participationStorageService.getPlayerName())
+    this.score=0;
     this.loadQuestionByPosition(1);
-    //registeredScores=quizApiService.getQuizInfo()
   },
 
   methods:{
@@ -44,12 +46,14 @@ export default {
       try{
         
         var response = await quizApiService.getQuestion(position);
-        console.log(response.data[0].answers);
+        console.log(response.data[0]);
         this.currentQuestion={
           questionTitle: response.data[0].title,
           questionText: response.data[0].text,
-          possibleAnswers: response.data[0].answers
+          possibleAnswers: response.data[0].answers,
+          image: response.data[0].image
         };
+
       }
       catch(error){
         console.log(error);
@@ -58,11 +62,12 @@ export default {
 
     
     async answerClickedHandler(position){
-      
-      //console.log(JSON.parse(JSON.stringify(this.currentQuestion.possibleAnswers[position].isCorrect)));
+  
+      this.chosenAnswers.push(position);
+
 
       if(JSON.parse(JSON.stringify(this.currentQuestion.possibleAnswers[position].isCorrect))==true){
-        score++;
+        this.score++;
       }
 
       if(this.currentQuestionPosition== this.totalNumberOfQuestion){
@@ -73,15 +78,23 @@ export default {
         this.loadQuestionByPosition(this.currentQuestionPosition);
       }
       console.log("question num "+this.currentQuestionPosition + "/" +this.totalNumberOfQuestion);
-      console.log("score "+ score);
+      console.log("score "+ this.score);
       
     },
 
 
     async endQuiz(){
-      //register score
-      this.$router.push('/score');
-      //send to result page
+      console.log(this.chosenAnswers);
+
+      try{
+        participationStorageService.saveParticipationScore(this.score);
+        var updateScoreResponse = await quizApiService.updateScore(participationStorageService.getPlayerId(),this.score);
+        console.log(updateScoreResponse);
+        this.$router.push('/score');
+      }
+      catch(error){
+        console.warn(error);
+      }
     }
   }
 };

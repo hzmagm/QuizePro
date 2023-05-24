@@ -1,25 +1,24 @@
 <template>
-  <div class="home">
-    <h1>Home page</h1>
-    <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
-    {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
-    </div>
+  <div class="home text-center">
+    <h1>Welcome</h1>
+
+    <p>Test your general culture on our site! </p>
+
+    <img src="@/assets/bigbrain.jpeg" height="300">
+    
     <HighScoresDisplay/>
-    <router-link to="/start-new-quiz-page">Démarrer le quiz !</router-link>
+    <router-link to="/start-new-quiz-page" class="btn btn-custom">Start !</router-link>
   </div>
 </template>
 
 <script>
-import quizApiService from "@/services/QuizApiService";
 import HighScoresDisplay from "../components/HighScoresDisplay.vue";
-
-var registeredScores=[];
 
 export default {
   name: "HomePage",
   data() {
     return {
-      registeredScores
+      
     };
   },
   components: {  
@@ -27,14 +26,16 @@ export default {
   },
   async created() {
     console.log("Composant Home page 'created'");
-    try{
-      registeredScores=quizApiService.getQuizInfo();
-    }
-    catch(error){
-      console.log(error);
-    }
+    
   }
 };
 </script>
 
-<style></style> 
+<style>
+
+.btn-custom{
+  background-color: white;
+  color: red;
+}
+
+</style> 

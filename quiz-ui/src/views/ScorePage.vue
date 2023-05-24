@@ -1,64 +1,60 @@
 <template>
-  <div class="Score">
+  <div class="Score text-center">
         <h1>Score: {{ score }}</h1>
-        <p>Your score is {{ score }}</p>
+        <p v-if= "score>8">GG champion, look for your name in the Hall of Fame</p>
+        <p v-if= "score<5">Ouch, keep going to school! </p>
+        <p v-if= "score<=8 && score>=5">Not bad!</p>
 
+        <HighScoresDisplay/>
   </div>
-
-  <h2>Vos scores précédents</h2>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <div ></div>
-        <th v-for="scoreEntry in previousScores" v-bind:key="scoreEntry.date">{{scoreEntry.date}}</th>
-      </tr>
-    </tbody>
-  </table>
-
-  <HighScoresDisplay/>
-
-  <router-link to="/home">Retour</router-link>
+  <button class="btn btn-custom" @click="resetParticipation" >Retour</button>
 </template>
 
 <script>
-import quizApiService from "@/services/QuizApiService";
 import participationStorageService from "../services/ParticipationStorageService.js";
 import HighScoresDisplay from "../components/HighScoresDisplay.vue";
-
-
-var score=0;
-
-var previousScores = [];
 
 export default {
   name: "ScorePage",
   data() {
     return {
-      
+      score:0
     };
   },
   components: {  
     HighScoresDisplay
   },
+
   async created() {
-    console.log("Composant Home page 'created'");
-    try{
-      score=participationStorageService.getParticipationScore();
-    }
-    catch(error){
-      console.log(error);
-    }
-    //registeredScores=quizApiService.getQuizInfo()
+      console.log("Composant Home page 'created'");
+      console.log("score"+ this.score);
+      console.log("local storage score"+ participationStorageService.getParticipationScore());
+
+      try{
+        this.score=participationStorageService.getParticipationScore();
+        console.log(this.score);
+        console.log("updated version 2");
+      }
+      catch(error){
+        console.log(error);
+      }
+    },
+
+  methods:{
+    async resetParticipation(){
+    console.log("Reset");
+    participationStorageService.clear();
+    this.score = 0;
+    this.$router.push('/home');
   }
+  },
+
+  
 };
 </script>
 
-<style></style>
+<style>
+.btn-custom{
+  background-color: white;
+  color: red;
+}</style>

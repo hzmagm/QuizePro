@@ -1,28 +1,32 @@
 <template>
-    <div class="highScores">
+    <div v-if="!empty" class="highScores">
 
-        <h2>Les meilleurs scores</h2>
-        <div > <p>taille tableau {{ previousScores.size }}</p></div>
+        <h2>The 10 highest scores</h2>
 
             <table class="table">
               
             <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
+                <th scope="col">Pseudo</th>
                 <th scope="col">Score</th>
                 </tr>
             </thead>
             
             <tbody>
-                <tr>
                 
-                <th v-for="scoreEntry in previousScores.scores" v-bind:key="scoreEntry.date">{{scoreEntry.date}}</th>
-                <th v-for="scoreEntry in previousScores.scores" v-bind:key="scoreEntry.name">{{scoreEntry.date}}</th>
-                <th v-for="scoreEntry in previousScores.scores" v-bind:key="scoreEntry.score">{{scoreEntry.date}}</th>
+                <tr v-for="(scoreEntry,index) in previousScores" v-bind:key="index">
+                  <td>{{scoreEntry.pseudoName}}</td>
+                
+                  <td>{{scoreEntry.score}}</td>
                 </tr>
             </tbody>
             </table>
+    </div>
+
+    <div v-if="empty">
+    
+      <h2>Be the first (the best!)</h2>
+    
     </div>
 </template>
   
@@ -36,23 +40,26 @@
     name: "HighScoreDisplay",
     data() {
       return {
+        emtpty : false,
         previousScores:{
-          "scores":[],
-          "size": 1
+          "scores":[]
         }
       };
     },
     
-
     async created() {
+      this.empty=false;
       console.log("Sous-Composant HighScoresDisplay 'created'");
+      console.log(this.empty);
       try{
-        var scoresResponse=await quizApiService.getQuizInfo();
-        this.previousScores= scoresResponse.data;
-        console.log(scoresResponse.data);
+        var scoresResponse=await quizApiService.getHighScores();
+        this.previousScores= scoresResponse.data.slice(0,10);
+        console.log(this.previousScores);
+
       }
       catch(error){
         console.log(error);
+        this.empty=true;
       }
     }
   };
