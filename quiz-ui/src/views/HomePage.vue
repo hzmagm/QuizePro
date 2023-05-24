@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Bienvenue</h1>
 
-    <p>Viens tester votre culture générale en jouant à notre quiz!</p>
+    <p>Viens tester ta culture générale en jouant à notre quiz!</p>
 
 
     

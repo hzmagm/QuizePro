@@ -5,7 +5,7 @@
     <form>
       <div class ="form-group">
         <p>On a juste besoin de ton nom!</p>
-        <input type="text" v-model="username" placeholder="Username" class="form-control">
+        <input type="text" v-model="username" placeholder="Pseudo" class="form-control">
       </div>
       <a  @click="launchNewQuiz" class="btn btn-light">Commencer</a>
     </form>

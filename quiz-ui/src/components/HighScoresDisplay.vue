@@ -7,7 +7,7 @@
               
             <thead>
                 <tr>
-                <th scope="col">Name</th>
+                <th scope="col">Pseudo</th>
                 <th scope="col">Score</th>
                 </tr>
             </thead>
