@@ -1,13 +1,13 @@
 <template>
   <div class="home text-center">
-    <h1>Bienvenue</h1>
+    <h1>Welcome</h1>
 
-    <p>Viens tester ta culture générale en jouant à notre quiz!</p>
+    <p>Test your general culture on our site! </p>
 
     <img src="@/assets/bigbrain.jpeg" height="300">
     
     <HighScoresDisplay/>
-    <router-link to="/start-new-quiz-page" class="btn btn-custom">Démarrer le quiz !</router-link>
+    <router-link to="/start-new-quiz-page" class="btn btn-custom">Start !</router-link>
   </div>
 </template>
 

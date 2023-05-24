@@ -18,8 +18,8 @@ import { RouterLink, RouterView } from 'vue-router'
   </main>
 
   <footer class="around text-center py-3 ">
-      <p>Adresse : 123 Rue Principale, Champs-sur-Marne, France</p>
-      <p>Téléphone : +33 6 12 34 56 78</p>
+      <p>Address : 123 Rue Principale, Champs-sur-Marne, France</p>
+      <p>Phone : +33 6 12 34 56 78</p>
       <p>Email : quizpro@gmail.com</p>
   </footer>
 </template>

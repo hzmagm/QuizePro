@@ -11,7 +11,7 @@ import QuestionDisplay from "../components/QuestionDisplay.vue";
 import quizApiService from "@/services/QuizApiService";
 import participationStorageService from "../services/ParticipationStorageService.js";
 
-var score = 0;
+
 
 export default {
   name: "QuestionManager",
@@ -26,7 +26,8 @@ export default {
 
       currentQuestionPosition: 1,
       totalNumberOfQuestion:10,
-      chosenAnswers:[]
+      chosenAnswers:[],
+      score:0
     }
   },
 
@@ -36,6 +37,7 @@ export default {
   
   async created() {
     console.log("Composant Question Manager 'created'");
+    this.score=0;
     this.loadQuestionByPosition(1);
   },
 
@@ -65,7 +67,7 @@ export default {
 
 
       if(JSON.parse(JSON.stringify(this.currentQuestion.possibleAnswers[position].isCorrect))==true){
-        score++;
+        this.score++;
       }
 
       if(this.currentQuestionPosition== this.totalNumberOfQuestion){
@@ -76,7 +78,7 @@ export default {
         this.loadQuestionByPosition(this.currentQuestionPosition);
       }
       console.log("question num "+this.currentQuestionPosition + "/" +this.totalNumberOfQuestion);
-      console.log("score "+ score);
+      console.log("score "+ this.score);
       
     },
 
@@ -85,8 +87,8 @@ export default {
       console.log(this.chosenAnswers);
 
       try{
-        participationStorageService.saveParticipationScore(score);
-        var updateScoreResponse = await quizApiService.updateScore(participationStorageService.getPlayerId(),score);
+        participationStorageService.saveParticipationScore(this.score);
+        var updateScoreResponse = await quizApiService.updateScore(participationStorageService.getPlayerId(),this.score);
         console.log(updateScoreResponse);
         this.$router.push('/score');
       }

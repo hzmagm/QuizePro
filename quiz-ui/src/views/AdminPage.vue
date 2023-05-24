@@ -1,10 +1,10 @@
 <template>
     <div class="admin">
-      <h1>Coin V.I.P</h1>
+      <h1>V.I.P Access</h1>
 
       <form v-if="!loggedIn">
         <div class ="form-group">
-          <p>Mot de passe</p>
+          <p>Password</p>
           <input type="Mot de passe" v-model="password" class="form-control">
         </div>
 
@@ -15,7 +15,7 @@
         <table >
           <tr v-for="(question,index) in questions" v-bind:key="index" @click="showQuestion(index)"><a>{{ question.title }}</a></tr>
         </table>
-        <button class="btn btn-primary" @click="createMode">Ajouter</button>
+        <button class="btn btn-primary" @click="createMode">Add</button>
       </div>
 
       <div v-if="showing && loggedIn">
@@ -24,8 +24,8 @@
         <table >
           <tr v-for="(possibleAnswer, index) in currentQuestion.answers" :key="index"><p>{{ possibleAnswer.text }}</p></tr>
         </table>
-        <button class="btn btn-warning" @click="editMode">Modifier</button>
-        <button class="btn btn-danger" @click="deleteQuestion">Supprimer</button>
+        <button class="btn btn-warning" @click="editMode">Edit</button>
+        <button class="btn btn-danger" @click="deleteQuestion">Delete</button>
       </div>
 
 
@@ -48,9 +48,9 @@
           <input type="radio" name="correct" v-model.number="selectedAnswerIndex" value="3">
 
         </div>
-        <a v-if="editing" @click="confirmEdit"  class="btn btn-warning">Confirmer</a>
-        <a v-if="adding" @click="confirmCreate"  class="btn btn-primary">Confirmer</a>
-        <a  @click="showMainPage" class="btn btn-light">Annuler</a>
+        <a v-if="editing" @click="confirmEdit"  class="btn btn-warning">Confirm</a>
+        <a v-if="adding" @click="confirmCreate"  class="btn btn-primary">Confirm</a>
+        <a  @click="showMainPage" class="btn btn-light">Cancel</a>
       
       </form>
 

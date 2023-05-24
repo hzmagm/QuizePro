@@ -1,7 +1,7 @@
 <template>
     <div v-if="!empty" class="highScores">
 
-        <h2>Les 10 meilleurs scores</h2>
+        <h2>The 10 highest scores</h2>
 
             <table class="table">
               
@@ -25,7 +25,7 @@
 
     <div v-if="empty">
     
-      <h2>Sois le premier (et donc le meilleur!)</h2>
+      <h2>Be the first (the best!)</h2>
     
     </div>
 </template>
